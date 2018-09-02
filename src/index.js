@@ -2,28 +2,56 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles.css';
 
-const myName = 'Anibal';
-
-const sum = (a, b) => {
-  return a + b;
+const mediaCardData = {
+  title: 'Some Title',
+  body: 'Some body text.',
+  imageUrl: 'https://via.placeholder.com/350x150'
 };
 
-export function Hi() {
+const Hi = props => {
   return (
     <div>
-      Hello <strong>{myName}</strong>!
-      <div>
-        <ul>
-          <li> Item 1 </li>
-          <li> Item 2 </li>
-          <li> Item {sum(1, 2)} </li>
-          <li> Item ... </li>
-          <li> Item ... </li>
-          <li> Item n </li>
-        </ul>
-      </div>
+      Hello <strong>{props.name}</strong>!
     </div>
   );
-}
+};
 
-ReactDOM.render(<Hi />, document.querySelector('#root'));
+const MediaCardII = ({ props }) => {
+  return (
+    <MediaCard
+      title={`Function Media Card II: ${props.title}`}
+      body={props.body}
+      imageUrl={props.imageUrl}
+    />
+  );
+};
+
+const MediaCard = ({ title, body, imageUrl }) => {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{body}</p>
+      <img alt="Some cool imageUrl" src={imageUrl} />
+    </div>
+  );
+};
+
+const Gate = ({ isOpen }) => {
+  return <h3>{isOpen ? 'open' : 'clossed'}</h3>;
+};
+
+ReactDOM.render(
+  <div>
+    <Hi name="Anibal" />
+    <Gate isOpen={new Date().getSeconds() % 2 === 0} />
+    <MediaCard
+      title={`Function Media Card I: ${mediaCardData.title}`}
+      body={mediaCardData.body}
+      imageUrl={mediaCardData.imageUrl}
+    />
+    <strong>
+      <MediaCardII props={mediaCardData} />
+    </strong>
+  </div>,
+  document.querySelector('#root')
+);
