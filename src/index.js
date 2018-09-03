@@ -1,29 +1,72 @@
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles.css';
 
-const myName = 'Anibal';
+class Room extends React.Component {
+  state = {
+    isLit: false,
+    temp: 72,
+    tempType: 'F'
+  };
 
-const sum = (a, b) => {
-  return a + b;
-};
+  flipLight = () => {
+    this.setState({
+      isLit: !this.state.isLit
+    });
+  };
 
-export function Hi() {
-  return (
-    <div>
-      Hello <strong>{myName}</strong>!
-      <div>
-        <ul>
-          <li> Item 1 </li>
-          <li> Item 2 </li>
-          <li> Item {sum(1, 2)} </li>
-          <li> Item ... </li>
-          <li> Item ... </li>
-          <li> Item n </li>
-        </ul>
+  on = () => {
+    this.setState({
+      isLit: true
+    });
+  };
+
+  off = () => {
+    this.setState({
+      isLit: false
+    });
+  };
+
+  tempUp = () => {
+    let currentTemp = this.state.temp;
+    currentTemp++;
+    this.setState({
+      temp: currentTemp
+    });
+  };
+
+  tempDown = () => {
+    let currentTemp = this.state.temp;
+    currentTemp--;
+    this.setState({
+      temp: currentTemp
+    });
+  };
+
+  render() {
+    const brightness = this.state.isLit ? 'lit' : 'dark';
+    return (
+      <div className={`room ${brightness}`}>
+        the room is <b />
+        {this.state.isLit ? 'lit' : 'dark'}
+        <br />
+        <button onClick={() => this.flipLight()}>flip</button>
+        <br />
+        <button onClick={() => this.on()}>ON</button>
+        <b />
+        <button onClick={() => this.off()}>OFF</button>
+        <br />
+        <div>
+          {`Temperature:   ${this.state.temp}   degrees ${this.state.tempType}`}
+        </div>
+        <div>
+          <button onClick={() => this.tempUp()}>+</button>
+          <b />
+          <button onClick={() => this.tempDown()}>-</button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-ReactDOM.render(<Hi />, document.querySelector('#root'));
+ReactDOM.render(<Room />, document.getElementById('root'));
