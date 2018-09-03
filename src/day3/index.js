@@ -1,57 +1,72 @@
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles.css';
 
-const mediaCardData = {
-  title: 'Some Title',
-  body: 'Some body text.',
-  imageUrl: 'https://via.placeholder.com/350x150'
-};
+class Room extends React.Component {
+  state = {
+    isLit: false,
+    temp: 72,
+    tempType: 'F'
+  };
 
-const Hi = props => {
-  return (
-    <div>
-      Hello <strong>{props.name}</strong>!
-    </div>
-  );
-};
+  flipLight = () => {
+    this.setState({
+      isLit: !this.state.isLit
+    });
+  };
 
-const MediaCardII = ({ props }) => {
-  return (
-    <MediaCard
-      title={`Function Media Card II: ${props.title}`}
-      body={props.body}
-      imageUrl={props.imageUrl}
-    />
-  );
-};
+  on = () => {
+    this.setState({
+      isLit: true
+    });
+  };
 
-const MediaCard = ({ title, body, imageUrl }) => {
-  return (
-    <div>
-      <h2>{title}</h2>
-      <p>{body}</p>
-      <img alt="Some cool imageUrl" src={imageUrl} />
-    </div>
-  );
-};
+  off = () => {
+    this.setState({
+      isLit: false
+    });
+  };
 
-const Gate = ({ isOpen }) => {
-  return <h3>{isOpen ? 'open' : 'clossed'}</h3>;
-};
+  tempUp = () => {
+    let currentTemp = this.state.temp;
+    currentTemp++;
+    this.setState({
+      temp: currentTemp
+    });
+  };
 
-ReactDOM.render(
-  <div>
-    <Hi name="Anibal" />
-    <Gate isOpen={new Date().getSeconds() % 2 === 0} />
-    <MediaCard
-      title={`Function Media Card I: ${mediaCardData.title}`}
-      body={mediaCardData.body}
-      imageUrl={mediaCardData.imageUrl}
-    />
-    <strong>
-      <MediaCardII props={mediaCardData} />
-    </strong>
-  </div>,
-  document.querySelector('#root')
-);
+  tempDown = () => {
+    let currentTemp = this.state.temp;
+    currentTemp--;
+    this.setState({
+      temp: currentTemp
+    });
+  };
+
+  render() {
+    const brightness = this.state.isLit ? 'lit' : 'dark';
+    return (
+      <div className={`room ${brightness}`}>
+        the room is <b />
+        {this.state.isLit ? 'lit' : 'dark'}
+        <br />
+        <button onClick={() => this.flipLight()}>flip</button>
+        <br />
+        <button onClick={() => this.on()}>ON</button>
+        <b />
+        <button onClick={() => this.off()}>OFF</button>
+        <br />
+        <div>
+          {`Temperature:   ${this.state.temp}   degrees ${this.state.tempType}`}
+        </div>
+        <div>
+          <button onClick={() => this.tempUp()}>+</button>
+          <b />
+          <button onClick={() => this.tempDown()}>-</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<Room />, document.getElementById('root'));
